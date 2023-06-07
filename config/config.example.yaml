@@ -1,0 +1,19 @@
+telegram:
+  subscribers_file_name: "./subscribers.json"
+  sleeping_time: "60"
+
+  messages:
+    successful: ""
+    unsuccessful: ""
+
+  api_id: ""
+  api_hash: ""
+  phone: ""
+  username: ""
+  bot_token: ""
+  password: ""
+
+ssh:
+  hostname: ""
+  username: ""
+  pkey_path: ""
