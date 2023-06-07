@@ -1,7 +1,6 @@
 from abc import abstractmethod, ABC
 
-from classes.status import form_message
-from classes.subject import Subject, ConcreteSubject
+from classes.subject import Subject
 
 
 class Observer(ABC):
@@ -15,5 +14,3 @@ class Observer(ABC):
         Receive update from subject.
         """
         pass
-
-

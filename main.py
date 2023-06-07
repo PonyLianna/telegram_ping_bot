@@ -6,10 +6,10 @@ import pathlib
 import paramiko
 from telethon import TelegramClient, events
 
-from classes.observer import Observer
 from classes.singleton import Singleton
 from classes.status import Status, form_message
 from classes.subject import ConcreteSubject
+from classes.subscriber import Subscriber
 from config.config import Config
 
 config = Config()
@@ -38,15 +38,6 @@ class MainLoop(metaclass=Singleton):
             finally:
                 if c:
                     c.close()
-
-
-class Subscriber(Observer):
-    def __init__(self, id: int):
-        self.id = id
-
-    async def update(self, subject: ConcreteSubject) -> None:
-        message = form_message(subject.status())
-        await bot.send_message(self.id, message=message)
 
 
 test = MainLoop()

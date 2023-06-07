@@ -7,13 +7,12 @@ from classes.singleton import Singleton
 
 class Config(metaclass=Singleton):
     sleeping_time = 60
-    config_file_name = './config.yaml'
+    config_file_name = './config/config.yaml'
 
     def __init__(self):
         self.config = self.get_config()
-        self.subscribers = self.get_subscribers()
-
         self.subscribers_file_name = self.config['telegram']['subscribers_file_name']
+        self.subscribers = self.get_subscribers()
 
         self.api_id = self.config['telegram']['api_id']
         self.api_hash = self.config['telegram']['api_hash']
@@ -29,11 +28,6 @@ class Config(metaclass=Singleton):
         self.hostname = self.ssh['hostname']
         self.username = self.ssh['username']
         self.pkey_path = self.ssh['pkey_path']
-
-        self.local_path = self.ssh['path']['local']
-        self.remote_path = self.ssh['path']['remote']
-
-        self.filename = self.ssh['filename']
 
     def get_config(self):
         with open(self.config_file_name) as f:
