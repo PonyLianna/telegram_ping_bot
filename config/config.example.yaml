@@ -3,8 +3,8 @@ telegram:
   sleeping_time: "60"
 
   messages:
-    successful: ""
-    unsuccessful: ""
+    successful: "✅ Connection online for "
+    unsuccessful: "🆘 Connection offline for "
 
   api_id: ""
   api_hash: ""

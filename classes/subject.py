@@ -1,15 +1,6 @@
 from abc import abstractmethod, ABC
-from typing import List
 
-from classes.status import Status, form_message
 from classes.subscriber import Subscriber
-from config.config import Config
-
-config = Config()
-
-
-
-
 
 
 class Subject(ABC):
@@ -24,5 +15,3 @@ class Subject(ABC):
     @abstractmethod
     def notify(self) -> None:
         pass
-
-
