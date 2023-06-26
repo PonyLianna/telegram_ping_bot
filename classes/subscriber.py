@@ -1,12 +1,12 @@
+from classes.form_message import form_message
 from classes.observer import Observer
-from classes.status import form_message
-from classes.subject import ConcreteSubject
 
 
 class Subscriber(Observer):
-    def __init__(self, id: int):
+    def __init__(self, id: int, bot):
         self.id = id
+        self.bot = bot
 
-    async def update(self, subject: ConcreteSubject) -> None:
+    async def update(self, subject) -> None:
         message = form_message(subject.status())
-        await bot.send_message(self.id, message=message)
+        await self.bot.send_message(self.id, message=message)

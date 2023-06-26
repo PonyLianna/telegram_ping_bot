@@ -1,11 +1,8 @@
 from typing import List
 
-from classes.status import Status
+from classes.enums.status import Status
 from classes.subject import Subject
 from classes.subscriber import Subscriber
-from config.config import Config
-
-config = Config()
 
 
 class ConcreteSubject(Subject):
@@ -13,9 +10,13 @@ class ConcreteSubject(Subject):
 
     _observers: List[Subscriber] = []
 
+    def __init__(self, config, bot):
+        self.config = config
+        self.bot = bot
+
     def init_observers(self, subscribers_file):
         for i in subscribers_file:
-            self._observers.append(Subscriber(i))
+            self._observers.append(Subscriber(i, self.bot))
 
     def status(self):
         return Status(self._state)
@@ -23,11 +24,11 @@ class ConcreteSubject(Subject):
     def attach(self, observer: Subscriber) -> None:
         print("Subject: Attached an observer.")
         self._observers.append(observer)
-        config.set_subscribers([i.id for i in self._observers])
+        self.config.set_subscribers([i.id for i in self._observers])
 
     def detach(self, observer: Subscriber) -> None:
         self._observers.remove(observer)
-        config.set_subscribers(self._observers)
+        self.config.set_subscribers(self._observers)
 
     def detach_by_id(self, user_id: int):
         user = list(filter(lambda x: x.id == user_id, self._observers))[0]

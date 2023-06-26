@@ -2,6 +2,7 @@ import json
 
 import yaml
 
+from classes.dataclasses.messages import Messages
 from classes.singleton import Singleton
 
 
@@ -29,9 +30,13 @@ class Config(metaclass=Singleton):
         self.username = self.ssh['username']
         self.pkey_path = self.ssh['pkey_path']
 
+        self.messages = self.config["telegram"]["messages"]
+        self.messages_statuses = Messages(successful=self.messages["successful"] + self.hostname,
+                                          unsuccessful=self.messages["unsuccessful"] + self.hostname)
+
     def get_config(self):
-        with open(self.config_file_name) as f:
-            config = yaml.load(f, Loader=yaml.SafeLoader)
+        with open(self.config_file_name, encoding='utf-8') as f:
+            config = yaml.safe_load(f)
         return config
 
     def set_subscribers(self, subscribers):

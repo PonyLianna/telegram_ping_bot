@@ -6,24 +6,24 @@ import pathlib
 import paramiko
 from telethon import TelegramClient, events
 
+from classes.concrete_subject import ConcreteSubject
+from classes.enums.status import Status
+from classes.form_message import form_message
 from classes.singleton import Singleton
-from classes.status import Status, form_message
-from classes.subject import ConcreteSubject
 from classes.subscriber import Subscriber
 from config.config import Config
 
 config = Config()
 
-bot = TelegramClient('bot', config.api_id, config.api_hash).start(bot_token=config.bot_token)
+bot = TelegramClient('bot', api_id=config.api_id, api_hash=config.api_hash).start(bot_token=config.bot_token)
 
-k = paramiko.RSAKey.from_private_key_file(
-    pathlib.Path(config.pkey_path))
+k = paramiko.RSAKey.from_private_key_file(pathlib.Path(config.pkey_path))
 c = paramiko.SSHClient()
 c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
 
 class MainLoop(metaclass=Singleton):
-    subject = ConcreteSubject()
+    subject = ConcreteSubject(config, bot)
     subject.init_observers(config.subscribers)
 
     async def start_listen(self):
@@ -45,17 +45,15 @@ test = MainLoop()
 
 @bot.on(events.NewMessage(pattern='/status'))
 async def start(event):
-    if MainLoop.subject.status() == Status.SUCCESSFULL:
-        await event.respond(f"✅ Connection online for {config.hostname} ✅")
-    else:
-        await event.respond(f"🆘 Connection offline for {config.hostname} 🆘")
+    status = form_message(MainLoop.subject.status())
+    await event.respond(status)
 
 
 @bot.on(events.NewMessage(pattern='/subscribe'))
 async def start(event):
     user_id = event.chat_id
     if not MainLoop.subject.is_attached_by_id(user_id):
-        MainLoop.subject.attach(Subscriber(user_id))
+        MainLoop.subject.attach(Subscriber(user_id, bot))
         await event.respond('Subscribed')
     else:
         MainLoop.subject.detach_by_id(user_id)
