@@ -21,7 +21,7 @@ class MainLoop(metaclass=Singleton):
         self.server = Server()
         subscribers = [i for i in self.config.subscribers]
 
-        addresses = [ConcreteSubject(i[list(i.keys())[0]]['address'], self.bot.send_message)
+        addresses = [ConcreteSubject(i, self.bot.send_message)
                      for i in self.config.hostnames]
 
         self.server.create_multiple(addresses)

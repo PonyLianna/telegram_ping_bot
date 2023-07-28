@@ -55,5 +55,4 @@ class Server:
         return users_servers
 
     def start(self, subscribers):
-        for server in self._servers:
-            server.init_observers(subscribers)
+        self._servers[0].init_observers(subscribers)
