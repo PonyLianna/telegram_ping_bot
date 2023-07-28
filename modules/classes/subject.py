@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 
-from classes.subscriber import Subscriber
+from modules.classes.subscriber import Subscriber
 
 
 class Subject(ABC):

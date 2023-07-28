@@ -1,5 +1,6 @@
-from classes.form_message import form_message
-from classes.observer import Observer
+
+from modules.classes.observer import Observer
+from utils.form_message import form_message
 
 
 class Subscriber(Observer):
@@ -8,5 +9,5 @@ class Subscriber(Observer):
         self.bot = bot
 
     async def update(self, subject) -> None:
-        message = form_message(subject.status())
+        message = form_message(subject.status(), subject.config)
         await self.bot.send_message(self.id, message=message)

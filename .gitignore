@@ -1,2 +1,3 @@
 /venv/
-/config/config.yaml
+/configuration/config.yaml
+/subscribers.json

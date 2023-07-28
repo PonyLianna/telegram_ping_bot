@@ -1,10 +1,12 @@
 telegram:
   subscribers_file_name: "./subscribers.json"
-  sleeping_time: "60"
+  sleeping_time: "10"
 
   messages:
     successful: "✅ Connection online for "
     unsuccessful: "🆘 Connection offline for "
+    subscribed: "💚 Subscribed 💚"
+    unsubscribed: "🤍 Unsubscribed 🤍"
 
   api_id: ""
   api_hash: ""
@@ -13,7 +15,15 @@ telegram:
   bot_token: ""
   password: ""
 
+  trusted:
+    - "YOUR ID"
 ssh:
-  hostname: ""
+  hostnames:
+  - something:
+      address: ""
+      listener: "default"
+  - something2:
+      address: ""
+      listener: "default"
   username: ""
   pkey_path: ""
