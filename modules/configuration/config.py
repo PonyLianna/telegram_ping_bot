@@ -19,7 +19,7 @@ class Config(metaclass=Singleton):
         self.subscribers_file_name = self.config['telegram']['subscribers_file_name']
         self.subscribers.file_name = self.subscribers_file_name
 
-        self.subscribers = self.subscribers.get_subscribers()
+        self.subscribers.get_subscribers()
 
         self.api_id = self.config['telegram']['api_id']
         self.api_hash = self.config['telegram']['api_hash']
