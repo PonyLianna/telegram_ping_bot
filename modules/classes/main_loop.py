@@ -19,9 +19,9 @@ class MainLoop(metaclass=Singleton):
         self.c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         self.server = Server()
-        subscribers = [i for i in self.config.subscribers]
+        subscribers = [i for i in self.config.subscribers.get_subscribers()]
 
-        addresses = [ConcreteSubject(i, self.bot.send_message)
+        addresses = [ConcreteSubject(i, self.bot)
                      for i in self.config.hostnames]
 
         self.server.create_multiple(addresses)

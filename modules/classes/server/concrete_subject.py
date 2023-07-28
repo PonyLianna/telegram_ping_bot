@@ -10,27 +10,31 @@ from modules.configuration.config import Config
 
 global_config = Config()
 
+
 class ConcreteSubject(Subject, AbstractSubject):
     _state: int = None
     _ip = ""
     _name = ""
     _observers: List[Subscriber] = []
 
-    def __init__(self, config, send_message):
+    def __init__(self, config, bot):
         # self.server_config = server_config
         self.config = config
-        self.send_message = send_message
+        self.bot = bot
 
         self._name = list(config.keys())[0]
         self._ip = config[self._name]["address"]
 
     def init_observers(self, subscribers_file) -> List[Subscriber]:
         for i in subscribers_file:
-            self._observers.append(Subscriber(i, self.send_message))
+            self._observers.append(Subscriber(i, self.bot))
         return self._observers
 
     def get(self) -> ServerConfig:
         return ServerConfig(self._name, self._ip)
+
+    def get_raw(self):
+        return self.config
 
     def get_user_ids(self) -> List[str]:
         return list(map(lambda x: x.id, self._observers))

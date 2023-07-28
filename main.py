@@ -19,20 +19,20 @@ test = MainLoop(bot=bot, config=config)
 @bot.on(events.NewMessage(pattern='/status'))
 async def status(event):
     for server in test.get_server_resolver().get_all():
-        status = form_message(server.status(), server.get().ip)
+        status = form_message(server.status(), server.get_raw())
         await event.respond(status)
 
 
 @bot.on(events.NewMessage(pattern='/subscribe'))
 async def subscribe(event):
     user_id = event.chat_id
-    for server in test.get_server_resolver().get_all():
-        if not server.is_attached_by_id(user_id):
-            server.attach(Subscriber(user_id, bot))
-            await event.respond(config.subscribed_messages.subscribed)
-        else:
-            server.detach_by_id(user_id)
-            await event.respond(config.subscribed_messages.unsubscribed)
+    server = test.get_server_resolver().get_all()[0]
+    if not server.is_attached_by_id(user_id):
+        server.attach(Subscriber(user_id, bot))
+        await event.respond(config.subscribed_messages.subscribed)
+    else:
+        server.detach_by_id(user_id)
+        await event.respond(config.subscribed_messages.unsubscribed)
 
     raise events.StopPropagation
 
