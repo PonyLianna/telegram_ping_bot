@@ -1,22 +1,41 @@
+from abc import ABC, abstractmethod
 from typing import List
 
-from classes.enums.status import Status
-from classes.subject import Subject
-from classes.subscriber import Subscriber
+from modules.classes.dataclasses.server_config import ServerConfig
+from modules.classes.enums.status import Status
+from modules.classes.server.abstract_concrete_subject import AbstractSubject
+from modules.classes.subject import Subject
+from modules.classes.subscriber import Subscriber
 
 
-class ConcreteSubject(Subject):
+class ConcreteSubject(Subject, AbstractSubject):
     _state: int = None
-
+    _ip = ""
+    _name = ""
     _observers: List[Subscriber] = []
 
-    def __init__(self, config, bot):
+    def __init__(self, config, send_message):
         self.config = config
-        self.bot = bot
+        self.send_message = send_message
 
-    def init_observers(self, subscribers_file):
+    def init_observers(self, subscribers_file) -> List[Subscriber]:
         for i in subscribers_file:
-            self._observers.append(Subscriber(i, self.bot))
+            self._observers.append(Subscriber(i, self.send_message))
+        return self._observers
+
+    def get(self) -> ServerConfig:
+        return ServerConfig(self._name, self._ip)
+
+    def get_user_ids(self) -> List[str]:
+        return list(map(lambda x: x.id, self._observers))
+
+    def get_status(self):
+        return self._state
+
+    def edit(self, name, ip):
+        self._ip = ip
+        self._name = name
+        return self
 
     def status(self):
         return Status(self._state)
