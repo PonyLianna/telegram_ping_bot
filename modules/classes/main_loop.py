@@ -21,8 +21,7 @@ class MainLoop(metaclass=Singleton):
         self.server = Server()
         subscribers = [i for i in self.config.subscribers.get_subscribers()]
 
-        addresses = [ConcreteSubject(i, self.bot)
-                     for i in self.config.hostnames]
+        addresses = [ConcreteSubject(i, self.bot) for i in self.config.hostnames]
 
         self.server.create_multiple(addresses)
         self.server.start(subscribers)
@@ -36,7 +35,11 @@ class MainLoop(metaclass=Singleton):
 
             for iter_server in self.server.get_all():
                 try:
-                    self.c.connect(hostname=iter_server.get().ip, username=self.config.username, pkey=self.k)
+                    self.c.connect(
+                        hostname=iter_server.get().ip,
+                        username=self.config.username,
+                        pkey=self.k,
+                    )
                     await iter_server.listen(Status(1))
                 except:
                     await iter_server.listen(Status(0))

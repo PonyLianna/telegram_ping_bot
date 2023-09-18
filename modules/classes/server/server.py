@@ -47,10 +47,14 @@ class Server:
         for server in self._servers:
             if uid in server.get_user_ids():
                 server_info = server.get()
-                users_servers.append({"ip": server_info.ip,
-                                      "name": server_info.name,
-                                      "status": server.status(),
-                                      "user_id": uid})
+                users_servers.append(
+                    {
+                        "ip": server_info.ip,
+                        "name": server_info.name,
+                        "status": server.status(),
+                        "user_id": uid,
+                    }
+                )
 
         return users_servers
 

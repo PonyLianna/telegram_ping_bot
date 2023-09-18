@@ -1,4 +1,4 @@
-class ServerConstructor():
+class ServerConstructor:
     def __init__(self):
         pass
 

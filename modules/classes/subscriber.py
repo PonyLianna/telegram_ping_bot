@@ -1,4 +1,3 @@
-
 from modules.classes.observer import Observer
 from utils.form_message import form_message
 

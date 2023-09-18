@@ -7,4 +7,3 @@ class HostnameConstructor:
 
     def build_constructor(self):
         pass
-
